@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>学中文 · เรียนภาษาจีน</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+Thai:wght@300;400;600;700&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- BACKGROUND DECOR -->
+<div class="bg-decor">
+  <div class="lantern lantern-1">🏮</div>
+  <div class="lantern lantern-2">🏮</div>
+  <div class="cloud cloud-1">☁</div>
+  <div class="cloud cloud-2">☁</div>
+  <div class="petal" id="petals"></div>
+</div>
+
+<!-- SCREEN: HOME -->
+<div id="screen-home" class="screen active">
+  <div class="home-container">
+    <div class="logo-area">
+      <div class="hanzi-logo">学</div>
+      <h1 class="main-title">学中文</h1>
+      <p class="sub-title">เรียนภาษาจีน · สนุกได้ทุกระดับ</p>
+    </div>
+
+    <div class="level-grid">
+      <div class="level-card" data-level="1" onclick="startLevel(1)">
+        <div class="level-badge">⭐</div>
+        <div class="level-hanzi">一</div>
+        <div class="level-name">ระดับ 1</div>
+        <div class="level-desc">ตัวเลข &amp; ทักทาย</div>
+        <div class="level-tag">เริ่มต้น</div>
+      </div>
+      <div class="level-card" data-level="2" onclick="startLevel(2)">
+        <div class="level-badge">⭐⭐</div>
+        <div class="level-hanzi">二</div>
+        <div class="level-name">ระดับ 2</div>
+        <div class="level-desc">ครอบครัว &amp; สี</div>
+        <div class="level-tag">พื้นฐาน</div>
+      </div>
+      <div class="level-card" data-level="3" onclick="startLevel(3)">
+        <div class="level-badge">⭐⭐⭐</div>
+        <div class="level-hanzi">三</div>
+        <div class="level-name">ระดับ 3</div>
+        <div class="level-desc">อาหาร &amp; สัตว์</div>
+        <div class="level-tag">กลาง</div>
+      </div>
+      <div class="level-card" data-level="4" onclick="startLevel(4)">
+        <div class="level-badge">⭐⭐⭐⭐</div>
+        <div class="level-hanzi">四</div>
+        <div class="level-name">ระดับ 4</div>
+        <div class="level-desc">เวลา &amp; สถานที่</div>
+        <div class="level-tag">ก้าวหน้า</div>
+      </div>
+      <div class="level-card" data-level="5" onclick="startLevel(5)">
+        <div class="level-badge">👑</div>
+        <div class="level-hanzi">五</div>
+        <div class="level-name">ระดับ 5</div>
+        <div class="level-desc">ประโยคสนทนา</div>
+        <div class="level-tag">ขั้นสูง</div>
+      </div>
+    </div>
+
+    <div class="score-display" id="total-score-display">
+      <span class="score-icon">🏆</span>
+      <span>คะแนนรวม: <strong id="total-score">0</strong></span>
+    </div>
+  </div>
+</div>
+
+<!-- SCREEN: GAME MODE SELECT -->
+<div id="screen-mode" class="screen">
+  <div class="mode-container">
+    <button class="back-btn" onclick="goHome()">← กลับ</button>
+    <h2 class="mode-title">เลือกโหมดเกม</h2>
+    <div class="level-indicator" id="mode-level-name"></div>
+
+    <div class="mode-cards">
+      <div class="mode-card" onclick="startGame('quiz')">
+        <div class="mode-icon">🎯</div>
+        <div class="mode-name">ทายคำ</div>
+        <div class="mode-desc">เห็นตัวอักษรจีน แล้วทายความหมาย</div>
+      </div>
+      <div class="mode-card" onclick="startGame('match')">
+        <div class="mode-icon">🔗</div>
+        <div class="mode-name">จับคู่</div>
+        <div class="mode-desc">จับคู่ตัวอักษรกับความหมาย</div>
+      </div>
+      <div class="mode-card" onclick="startGame('pinyin')">
+        <div class="mode-icon">🔤</div>
+        <div class="mode-name">พินอิน</div>
+        <div class="mode-desc">เลือกพินอินที่ถูกต้อง</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SCREEN: QUIZ GAME -->
+<div id="screen-quiz" class="screen">
+  <div class="game-container">
+    <div class="game-header">
+      <button class="back-btn" onclick="goHome()">← หน้าหลัก</button>
+      <div class="progress-area">
+        <div class="progress-bar-bg"><div class="progress-bar-fill" id="quiz-progress"></div></div>
+        <span id="quiz-count">1/10</span>
+      </div>
+      <div class="live-score">❤️ <span id="quiz-lives">3</span> &nbsp; 🌟 <span id="quiz-score">0</span></div>
+    </div>
+
+    <div class="question-zone">
+      <div class="question-card" id="quiz-card">
+        <div class="question-hanzi" id="quiz-hanzi">你好</div>
+        <div class="question-pinyin" id="quiz-pinyin">nǐ hǎo</div>
+        <div class="question-prompt">ความหมายคือ?</div>
+      </div>
+    </div>
+
+    <div class="choices-grid" id="quiz-choices"></div>
+  </div>
+</div>
+
+<!-- SCREEN: MATCHING GAME -->
+<div id="screen-match" class="screen">
+  <div class="game-container">
+    <div class="game-header">
+      <button class="back-btn" onclick="goHome()">← หน้าหลัก</button>
+      <div class="progress-area">
+        <span class="match-title">🔗 จับคู่คำ</span>
+      </div>
+      <div class="live-score">✅ <span id="match-score">0</span>/<span id="match-total">6</span></div>
+    </div>
+    <p class="match-instruction">แตะตัวอักษรจีน แล้วแตะความหมายที่ตรงกัน</p>
+    <div class="match-area" id="match-area"></div>
+    <div class="match-feedback" id="match-feedback"></div>
+  </div>
+</div>
+
+<!-- SCREEN: PINYIN GAME -->
+<div id="screen-pinyin" class="screen">
+  <div class="game-container">
+    <div class="game-header">
+      <button class="back-btn" onclick="goHome()">← หน้าหลัก</button>
+      <div class="progress-area">
+        <div class="progress-bar-bg"><div class="progress-bar-fill" id="pinyin-progress"></div></div>
+        <span id="pinyin-count">1/10</span>
+      </div>
+      <div class="live-score">🌟 <span id="pinyin-score">0</span></div>
+    </div>
+
+    <div class="question-zone">
+      <div class="question-card">
+        <div class="question-hanzi" id="pinyin-hanzi">你好</div>
+        <div class="question-meaning" id="pinyin-meaning">สวัสดี</div>
+        <div class="question-prompt">พินอินที่ถูกต้องคือ?</div>
+      </div>
+    </div>
+
+    <div class="choices-grid" id="pinyin-choices"></div>
+  </div>
+</div>
+
+<!-- SCREEN: RESULT -->
+<div id="screen-result" class="screen">
+  <div class="result-container">
+    <div class="result-emoji" id="result-emoji">🎉</div>
+    <h2 class="result-title" id="result-title">ยอดเยี่ยม!</h2>
+    <div class="result-score-big" id="result-score">100</div>
+    <div class="result-message" id="result-message"></div>
+    <div class="result-stars" id="result-stars"></div>
+    <div class="result-btns">
+      <button class="btn-primary" onclick="retryGame()">🔄 เล่นอีกครั้ง</button>
+      <button class="btn-secondary" onclick="goHome()">🏠 หน้าหลัก</button>
+    </div>
+  </div>
+</div>
+
+<!-- FLOATING PARTICLES -->
+<div id="particles-container"></div>
+
+<script src="game.js"></script>
+</body>
+</html>
